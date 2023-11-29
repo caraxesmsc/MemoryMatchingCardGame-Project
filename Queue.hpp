@@ -134,7 +134,8 @@ public:
      queue is empty; in that case, an error message is displayed
      and execution allowed to proceed.
      -----------------------------------------------------------------------*/
-    void createShuffledQueue();
+    void createShuffledQueue(int* array);
+
     /*-----------------------------------------------------------------------
      Remove value at front of queue (if any).
 
@@ -164,8 +165,10 @@ public:
     bool checkMatch(int loc1, int loc2);
     int chooseCard();
     bool isGameOver(int n);
-//private:
-    /*** Node class ***/
+    bool checkMatchHard(Card card1, int loc2);
+    void searchCard(Card card1);
+    //private:
+        /*** Node class ***/
     class Node
     {
     public:
@@ -189,7 +192,7 @@ public:
     NodePointer myFront,      // pointer to front of queue
         myBack;       // pointer to back of queue
 
-    
+
 }; // end of class declaration
 
 //------ Prototype of output operator

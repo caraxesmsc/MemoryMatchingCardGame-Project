@@ -110,7 +110,7 @@ Card Queue::front() const
         return (myFront->data);
     else
     {
-        cerr << "*** Queue is empty " <<" -- returning garbage ***\n";
+        cerr << "*** Queue is empty " << " -- returning garbage ***\n";
         Card* temp = new(Card);
         Card garbage = *temp;     // "Garbage" value
         delete temp;
@@ -179,12 +179,27 @@ bool Queue::checkMatch(int loc1, int loc2) {
     }
     return false;
 }
+bool Queue::checkMatchHard(Card card1, int loc2) {
 
+    Queue::Node* head2 = myFront;
+
+
+    for (int i = 0; i < loc2; i++) {
+        head2 = head2->next;
+    }
+
+
+    if (card1.CardName == head2->data.CardName) {
+        head2->data.isShown = true;
+        return true;
+    }
+    return false;
+}
 void Queue::displayGrid() {
     Node* current = myFront;
     for (int i = 0; i < 12; i++) {
         if (current->data.isShown) {
-            cout << " ("<<current->data.CardName << ")";
+            cout << " (" << current->data.CardName << ")";
         }
         else {
             cout << " [" << i << "]";
@@ -195,22 +210,19 @@ void Queue::displayGrid() {
         current = current->next;
     }
 }
-void Queue::createShuffledQueue() {
+void Queue::createShuffledQueue(int* indexArray) {
 
-    // Generate an array of indices from 0 to 5 (representing pairs)
-    int indices[6];
-    for (int i = 0; i < 6; ++i) {
-        indices[i] = i;
-    }
-   
+
+
     // Duplicate indices to create pairs
     int shuffledIndices[12];
     for (int i = 0; i < 6; ++i) {
-        shuffledIndices[i * 2] = indices[i];
-        
-        shuffledIndices[i * 2 + 1] = indices[i];
+        shuffledIndices[i * 2] = *indexArray;
+        shuffledIndices[i * 2 + 1] = *indexArray;
+        indexArray++;
     }
-
+    // Reset the pointer to the beginning
+    indexArray -= 6;
     // Shuffle the indices array
     shuffleArray(shuffledIndices, 12);
 
@@ -238,8 +250,16 @@ int Queue::chooseCard() {
     for (int i = 0; i < loc; i++) {
         head1 = head1->next;
     }
-    cout << "you chose location "<<loc<<" card is "<<head1->data.CardName<<endl;
+    cout << "you chose location " << loc << " card is " << head1->data.CardName << endl;
     return loc;
+}
+void Queue::searchCard(Card card1) {
+
+    Queue::Node* head1 = myFront;
+    while (head1->data.CardName != card1.CardName) {
+        head1 = head1->next;
+    }
+    head1->data.isShown = true;
 }
 
 bool Queue::isGameOver(int n) {

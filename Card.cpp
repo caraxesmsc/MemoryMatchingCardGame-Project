@@ -32,3 +32,7 @@ Card::Card(int value) : isShown(false) {
 
 
 }
+
+void Card::setShown(bool booleanVar) {
+    isShown = booleanVar;
+}
