@@ -1,6 +1,5 @@
 #include "Queue.hpp"
 #include "Stack.hpp"
-
 #include "Card.h"
 
 //--- Definition of Queue constructor
@@ -195,6 +194,16 @@ bool Queue::checkMatchHard(Card card1, int loc2) {
     }
     return false;
 }
+bool Queue::checkMatchCards(Card card1, Card card2) {
+
+    if (card1.CardName == card2.CardName) {
+        card1.isShown = true;
+        card2.isShown = true;
+
+        return true;
+    }
+    return false;
+}
 void Queue::displayGrid() {
     Node* current = myFront;
     for (int i = 0; i < 12; i++) {
@@ -235,6 +244,8 @@ void Queue::createShuffledQueue(int* indexArray) {
 // Custom shuffle function (Fisher-Yates algorithm)
 void Queue::shuffleArray(int arr[], int size) {
     for (int i = size - 1; i > 0; --i) {
+        srand(time(NULL));
+
         int j = rand() % (i + 1);
         // Swap arr[i] and arr[j]
         int temp = arr[i];
